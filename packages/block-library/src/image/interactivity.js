@@ -16,8 +16,10 @@ store( {
 				context.core.lastFocusedElement = window.document.activeElement;
 			},
 			hideLightbox: ( { context } ) => {
-				context.core.lightboxEnabled = false;
-				context.core.lastFocusedElement.focus();
+				if ( context.core.lightboxEnabled ) {
+					context.core.lightboxEnabled = false;
+					context.core.lastFocusedElement.focus();
+				}
 			},
 			handleKeydown: ( { context, actions, event } ) => {
 				if ( context.core.lightboxEnabled ) {
