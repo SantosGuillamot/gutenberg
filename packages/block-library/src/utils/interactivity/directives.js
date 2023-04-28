@@ -67,13 +67,7 @@ export default () => {
 			const { Provider } = context;
 			const contextValue = useContext( context );
 
-			const children = useMemo(
-				() =>
-					element.type === 'template'
-						? element.props.templateChildren
-						: element,
-				[]
-			);
+			const children = useMemo( () => element, [] );
 
 			if ( ! evaluate( body, { context: contextValue } ) ) return null;
 
