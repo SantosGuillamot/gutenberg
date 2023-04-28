@@ -53,21 +53,36 @@ export default () => {
 		}
 	);
 
+	// data-wp-body
 	directive(
-		'portal',
+		'body',
 		( {
 			directives: {
-				portal: { default: portal },
+				body: { default: body },
 			},
-			props: { children },
-			context: inherited,
+			evaluate,
+			element,
+			context,
 		} ) => {
-			const { Provider } = inherited;
-			const inheritedValue = useContext( inherited );
+			const { Provider } = context;
+			const contextValue = useContext( context );
+
+			const children = useMemo(
+				() =>
+					element.type === 'template'
+						? element.props.templateChildren
+						: element,
+				[]
+			);
+
+			if ( ! evaluate( body, { context: contextValue } ) ) return null;
+
 			return (
 				<>
 					{ createPortal(
-						<Provider value={inheritedValue}>{children}</Provider>,
+						<Provider value={ contextValue }>
+							{ children }
+						</Provider>,
 						document.body
 					) }
 				</>
